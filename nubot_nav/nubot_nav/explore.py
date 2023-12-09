@@ -1,4 +1,4 @@
-""" The Dora node makes the nubot explore its environment. """
+"""The Dora node makes the nubot explore its environment."""
 import rclpy
 from rclpy.node import Node
 
@@ -23,7 +23,7 @@ class Explore(Node):
     SUBSCRIBERS:
 
         mapsub (nav_msgs/msg/OccupancyGrid) : Loads map into the node.
-        posesub (geometry_msgs/msg/PoseWithCovariannceStamped) : Gets current pose of the nubot.
+        posesub (geometry_msgs/msg/PoseWithCovarianceStamped) : Gets current pose of the nubot.
 
     """
 
@@ -72,10 +72,10 @@ class Explore(Node):
 
     def map_callback(self, msg: OccupancyGrid):
         """
-        Loads map into node.
+        Load map into node.
 
         Args:
-
+        ----
             msg (nav_msgs/msg/OccupancyGrid) : The current map.
 
         """
@@ -92,24 +92,20 @@ class Explore(Node):
 
     def pose_callback(self, msg: PoseWithCovarianceStamped):
         """
-        Gets the pose of the nubot.
+        Get the pose of the nubot.
 
         Args:
-
+        ----
             msg (geometry_msgs/msg/PoseWithCovarianceStamped) : The current pose of the robot.
 
         """
-
         self.currentPose.header.stamp = self.get_clock().now().to_msg()
         self.currentPose.pose = msg.pose.pose
 
         self.pose_known = True
 
     def timer_callback(self):
-        """
-        Decides the behaviour of the node at each timestep.
-
-        """
+        """Decide the behaviour of the node at each timestep."""
         self.targetPose.header.stamp = self.get_clock().now().to_msg()
 
         self.targetPose.pose = self.currentPose.pose
@@ -120,7 +116,7 @@ class Explore(Node):
 
         except tf2_ros.LookupException as e:
             # the frames don't exist yet
-            self.empty = 0
+            self.get_logger().info(f"Frames don't exist yet: {e}")
         except tf2_ros.ConnectivityException as e:
             # the tf tree has a disconnection
             self.get_logger().info(f"Connectivity exception: {e}")
@@ -138,6 +134,7 @@ class Explore(Node):
         ) and round(self.prevtf.transform.translation.y, 1) == round(
             tf.transform.translation.y, 1
         ):
+            # REPRESENT CRAZZZY TURTLE
             r = 8
             theta = uniform(-pi, pi)
 
@@ -173,7 +170,7 @@ class Explore(Node):
 
         # Flag when the /pose topic is not published.
         else:
-            self.get_logger().info(f"MISSED OPPORTUNITY ")
+            self.get_logger().info("MISSED OPPORTUNITY ")
 
 
 def main(args=None):
