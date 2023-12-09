@@ -1,0 +1,29 @@
+<launch>
+    <!-- Arguments -->
+    <!-- <arg name="use_rviz" default="true" />
+    <arg name="world" default="nubot_world.sdf" />
+    <arg name="params_file" default="$(find-pkg-share nubot_nav)/mapper_params_online_async.yaml" />
+    <arg name="use_sim_time" default="true" /> -->
+    <!-- <arg name="nav2_params_file" default="$(find-pkg-share nubot_nav)/nav2_params.yaml" /> -->
+    <arg name="world" default="nubot_simple.sdf" />
+
+
+    <!-- Start nubot simulation -->
+    <include file="$(find-pkg-share nubot)/launch/simulate.launch.xml" >
+        <arg name="world" value="$(var world)" />
+        <!-- <arg name="use_rviz" value="$(var use_rviz)" /> -->
+    </include>
+
+    <!-- Start slam_toolbox in async mode -->
+    <include file="$(find-pkg-share slam_toolbox)/launch/online_async_launch.py" >
+        <!-- <arg name="params_file" value="$(var params_file)" /> -->
+        <!-- <arg name="use_sim_time" value="$(var use_sim_time)" /> -->
+    </include>
+
+    <!-- Start nav2 stack -->
+    <include file="$(find-pkg-share nav2_bringup)/launch/navigation_launch.py" >
+        <arg name="params_file" value="$(find-pkg-share nubot_nav)/nav2_params.yaml" />
+        <!-- <arg name="use_sim_time" value="$(var use_sim_time)" /> -->
+    </include>
+
+</launch>
