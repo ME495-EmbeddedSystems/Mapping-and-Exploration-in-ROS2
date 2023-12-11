@@ -1,7 +1,8 @@
 # `nubot_nav` package
 
 The `nubot_nav` package enables mapping and exploration for the [`nubot`](https://github.com/m-elwin/nubot) through the `slam_toolbox` and `nav2` stack.
-**The intention behind doing this project was to gain familiarity with the `slam_toolbox` package and `nav2` stack.**
+
+***The intention behind doing this project was to gain familiarity with the `slam_toolbox` package and `nav2` stack.***
 
 ### Launch manual explorer
 The manual exploration allows the user to move the nubot in `gazebo` (using the '`teleop_twist_keyboard` package or by giving 2-D goal poses) to explore its 2-D environment while building a map of it.
